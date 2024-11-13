@@ -1,49 +1,36 @@
-// Importa el módulo Express
 const express = require('express');
-console.log('Express module imported');
+const mysql = require('mysql2');
 
-// Crea una instancia de una aplicación Express
 const app = express();
-console.log('Express app created');
-
-// Define el puerto en el que el servidor escuchará
 const port = 3000;
 
-// Define una ruta que responde a las solicitudes GET en /ejercicios
-app.get('/ejercicios', (req, res) => {
-    console.log('GET / ejercicios called');
-    // Define una lista de ejercicios de ejemplo con el formato especificado
-    const ejercicios = {
-        "ejercicios": [
-            {
-                "usuario": "Manuel",
-                "ejercicio": "Squat",
-                "peso": {
-                    "kilogramos": 45.36,
-                    "libras": 100.00
-                },
-                "cantidad": 20,
-                "fechaHora": "2024-11-01 03:45:00"
-            },
-            {
-                "usuario": "Goreti",
-                "ejercicio": "Squat",
-                "peso": {
-                    "kilogramos": 45.36,
-                    "libras": 100.00
-                },
-                "cantidad": 25,
-                "fechaHora": "2024-11-02 03:45:00"
-            }
-        ]
-    };
-
-    res.json(ejercicios);
+// Configurar la conexión a la base de datos
+const connection = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: 'tu_contraseña',
+    database: 'ejercicios'
 });
-// Configura el servidor para que escuche en el puerto especificado
+
+// Conectar a la base de datos
+connection.connect((err) => {
+    if (err) {
+        console.error('Error conectando a la base de datos:', err.stack);
+        return;
+    }
+    console.log('Conectado a la base de datos como id ' + connection.threadId);
+});
+
+app.get('/ejercicios', (req, res) => {
+    const query = 'SELECT * FROM ejercicios';
+    connection.query(query, (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+        res.json({ ejercicios: results });
+    });
+});
+
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
 });
-
-
-
