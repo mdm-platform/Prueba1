@@ -1,18 +1,19 @@
+require('dotenv').config();
+console.log(process.env);
+
 const express = require('express');
 const mysql = require('mysql2');
 
 const app = express();
 const port = 3000;
 
-// Configurar la conexión a la base de datos
 const connection = mysql.createConnection({
     host: 'localhost',
-    user: 'root',
-    password: 'tu_contraseña',
-    database: 'ejercicios'
+    user: process.env.MYSQL_USERNAME,
+    password: process.env.MYSQL_PASSWORD,
+    database: process.env.MYSQL_DATABASE
 });
 
-// Conectar a la base de datos
 connection.connect((err) => {
     if (err) {
         console.error('Error conectando a la base de datos:', err.stack);
@@ -22,7 +23,7 @@ connection.connect((err) => {
 });
 
 app.get('/ejercicios', (req, res) => {
-    const query = 'SELECT * FROM ejercicios';
+    const query = 'SELECT * FROM ejercicios_lista';
     connection.query(query, (error, results) => {
         if (error) {
             return res.status(500).json({ error: error.message });
