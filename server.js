@@ -32,6 +32,20 @@ app.get('/ejercicios', (req, res) => {
     });
 });
 
+
+// para eliminar 
+app.delete('/ejercicios/:id', (req, res) => {
+    const ejercicioId = req.params.id;
+    const query = 'DELETE FROM ejercicios_lista WHERE id = ?';
+    connection.query(query, [ejercicioId], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+        res.json({ message: 'Ejercicio eliminado correctamente' });
+    });
+});
+
+
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
 });
