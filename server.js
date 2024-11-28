@@ -22,8 +22,9 @@ connection.connect((err) => {
     console.log('Conectado a la base de datos como id ' + connection.threadId);
 });
 
+// para leer
 app.get('/ejercicios', (req, res) => {
-    const query = 'SELECT * FROM ejercicios_lista';
+    const query = 'SELECT * FROM ejercicios_lista';        //selecciona 
     connection.query(query, (error, results) => {
         if (error) {
             return res.status(500).json({ error: error.message });
@@ -36,14 +37,29 @@ app.get('/ejercicios', (req, res) => {
 // para eliminar 
 app.delete('/ejercicios/:id', (req, res) => {
     const ejercicioId = req.params.id;
-    const query = 'DELETE FROM ejercicios_lista WHERE id = ?';
+    const query = 'DELETE FROM ejercicios_lista WHERE id = ?';           //cual ejercicio eliminar
     connection.query(query, [ejercicioId], (error, results) => {
         if (error) {
-            return res.status(500).json({ error: error.message });
+            return res.status(500).json({ error: error.message });       //por si hay algun error
         }
         res.json({ message: 'Ejercicio eliminado correctamente' });
     });
 });
+
+
+// nuevo ejercicio
+app.post('/ejercicios', (req, res) => {
+    const { id, name, created_at, updeted_at, deleted_at } = req.body;
+    const query = 'INSERT INTO ejercicios_lista (id,name, created_at, updated_at, deleted_at) VALUES (?, ?, ?, ?)';
+    connection.query(query, [id, name, created_at, updeted_at, deleted_at], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+        res.json({ message: 'Ejercicio creado correctamente', id: results.insertId });
+    });
+});
+
+
 
 
 app.listen(port, () => {
