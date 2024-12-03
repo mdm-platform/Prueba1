@@ -41,18 +41,7 @@ app.get('/ejercicios', (req, res) => {
 });
 
 
-//para actualizar 
-app.put('/ejercicio/:id', (req, res) => {
-    const ejercicioid = req.params.id;
-    const { id, name, created_at, updeted_at, deleted_at } = req.body;
-    const query = 'UPDATE ejercicios_lista SET id = ?, name = ?, created_at = ?, updeted_at = ?, deleted_at = ? WHERE id = ?';
-    connection.query(query, [id, name, created_at, updeted_at, deleted_at, ejercicioid], (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: error.message });
-        }
-        res.json({ message: 'Ejercicio actualizado correctamente' });
-    });
-});  
+ 
 
 // para eliminar 
 app.delete('/ejercicios/:id', (req, res) => {
@@ -67,17 +56,6 @@ app.delete('/ejercicios/:id', (req, res) => {
 });
 
 
-// nuevo ejercicio
-app.post('/ejercicios', (req, res) => {
-    const { id, name, created_at, updeted_at, deleted_at } = req.body;
-    const query = 'INSERT INTO ejercicios_lista (id, name, created_at, updated_at, deleted_at) VALUES (?, ?, ?, ?)';
-    connection.query(query, [id, name, created_at, updeted_at, deleted_at], (error, results) => {
-        if (error) {
-            return res.status(500).json({ error: error.message });
-        }
-        res.json({ message: 'Ejercicio creado correctamente', id: results.insertid });
-    });
-});
 
 
 
