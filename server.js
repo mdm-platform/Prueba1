@@ -1,16 +1,13 @@
 require('dotenv').config();
 console.log(process.env);
 
-
-
-
 const express = require('express');
 const mysql = require('mysql2');
 
 const app = express();
 const port = 3001;
 
-app.use(express.json());
+
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -29,6 +26,8 @@ connection.connect((err) => {
 
 
 
+
+
 // para leer
 app.get('/ejercicios', (req, res) => {
     const query = 'SELECT * FROM ejercicios_lista';        //selecciona 
@@ -41,7 +40,6 @@ app.get('/ejercicios', (req, res) => {
 });
 
 
- 
 
 // para eliminar 
 app.delete('/ejercicios/:id', (req, res) => {
@@ -56,7 +54,18 @@ app.delete('/ejercicios/:id', (req, res) => {
 });
 
 
-
+//para actualizar 
+app.put('/ejercicio/:id', (req, res) => {
+    const ejercicioid = req.params.id;
+    const { id, name, created_at, updeted_at, deleted_at } = req.body;
+    const query = 'UPDATE ejercicios_lista SET id = ?, name = ?, created_at = ?, updeted_at = ?, deleted_at = ? WHERE id = ?';
+    connection.query(query, [id, name, created_at, updeted_at, deleted_at, ejercicioid], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+        res.json({ message: 'Ejercicio actualizado correctamente' });
+    });
+}); 
 
 
 
