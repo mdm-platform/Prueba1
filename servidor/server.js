@@ -1,5 +1,7 @@
 require('dotenv').config();
 
+
+
 const express = require('express');
 const mysql = require('mysql2');
 
@@ -37,9 +39,9 @@ app.get('/ejercicios', (req, res) => {
 
 // para eliminar
 app.delete('/ejercicios/:id', (req, res) => {
-    const ejercicioId = req.params.id;
+    const ejerciciosid = req.params.id;
     const query = 'DELETE FROM ejercicios_lista WHERE id = ?';           //cual ejercicio eliminar
-    connection.query(query, [ejercicioId], (error, results) => {
+    connection.query(query, [ejerciciosid], (error, results) => {
         if (error) {
             return res.status(500).json({ error: error.message });       //por si hay algun error
         }
