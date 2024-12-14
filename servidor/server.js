@@ -37,6 +37,22 @@ app.get('/ejercicios', (req, res) => {
     });
 });
 
+
+// para leer un registro específico
+// 12/12/24
+// preguntar si se tiene que poner un nuevo registo en la carpeta de crud en postman 
+app.get('/ejercicios/:id', (req, res) => {
+    const { id } = req.params;
+    const query = 'SELECT * FROM ejercicios_lista WHERE id = ?';
+    connection.query(query, [id], (error, results) => {
+        if (error) {
+            return res.status(500).json({ error: error.message });
+        }
+        res.json({ ejercicio: results[0] });
+    });
+});
+
+
 // para eliminar
 app.delete('/ejercicios/:id', (req, res) => {
     const ejerciciosid = req.params.id;
