@@ -91,6 +91,23 @@ app.put('/ejercicios', async (req, res) => {
     }
 });
 
+
+// para actualizar un registro específico
+app.put('/ejercicios/:id', async (req, res) => {
+    const { id } = req.params;
+    const { newName } = req.body;
+
+    try {
+        const updateQuery = 'UPDATE ejercicios_lista SET name = ? WHERE id = ?';
+        await handleDatabaseOperation(updateQuery, [newName, id]);
+        res.json({ message: 'Ejercicio actualizado correctamente' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
+
 // extraemos la operaciones en la base de datos
 const handleDatabaseOperation = async (query, params) => {
     return new Promise((resolve, reject) => {
