@@ -3,10 +3,12 @@ const express = require('express');
 const mysql = require('mysql2');
 const path = require('path');
 
+
+
 const app = express();
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'cliente')));
-
+//para conectar con cliente 
 const port = 3001;
 
 const connection = mysql.createConnection({
@@ -38,7 +40,7 @@ app.get('/ejercicios', (req, res) => {
 
 
 // para leer un registro específico
-// 12/12/24
+
 // preguntar si se tiene que poner un nuevo registo en la carpeta de crud en postman 
 app.get('/ejercicios/:id', (req, res) => {
     const { id } = req.params;
