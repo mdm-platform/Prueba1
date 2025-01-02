@@ -6,37 +6,15 @@ body {
 h1 {
     color: #e11616;
 }
-ul{
+
+ul {
     list-style-type: none;
     padding: 0;
- 
 }
 
-li{background: #755cb0; 
+li {
+    background: #755cb0; 
     margin: 5px 0;
     padding: 10px;
-    border: 1px solid #0ae240
-    }
-
-
-    form {
-        margin-top: 20px;
-    }
-    
-    input {
-        padding: 10px;
-        margin-right: 10px;
-        border: 1px solid #ef0a0a;
-    }
-    
-    button {
-        padding: 10px;
-        background: #3711e3;
-        color: #670c2c;
-        border: none;
-        cursor: pointer;
-    }
-    
-    button:hover {
-        background: #04f20c;
-    }
+    border: 1px solid #0ae240;
+}

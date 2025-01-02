@@ -27,6 +27,16 @@ connection.connect((err) => {
 });
 
 
+
+
+// Ruta para servir el archivo index.html
+//app.get('/', (req, res) => {
+  //  res.sendFile(path.join(__dirname, 'cliente', 'index.html'));
+//});
+
+
+
+
 // para leer
 app.get('/ejercicios', (req, res) => {
     const query = 'SELECT * FROM ejercicios_lista';        //selecciona
