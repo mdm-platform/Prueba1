@@ -7,9 +7,16 @@ const path = require('path');
 
 const app = express();
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'cliente')));
+
+app.use(express.static(path.join(__dirname,'..', 'cliente')));
 //para conectar con cliente 
 const port = 3001;
+
+// Ruta para servir el archivo index.html
+//app.get('/', (req, res) => {
+  //  res.sendFile(path.join(__dirname, '..', 'cliente', 'index.html'));
+//});
+
 
 const connection = mysql.createConnection({
     host: 'localhost',
@@ -17,6 +24,8 @@ const connection = mysql.createConnection({
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE
 });
+
+
 
 connection.connect((err) => {
     if (err) {
@@ -26,13 +35,6 @@ connection.connect((err) => {
     console.log('Conectado a la base de datos como id ' + connection.threadId);
 });
 
-
-
-
-// Ruta para servir el archivo index.html
-//app.get('/', (req, res) => {
-  //  res.sendFile(path.join(__dirname, 'cliente', 'index.html'));
-//});
 
 
 
