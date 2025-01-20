@@ -13,8 +13,13 @@ ul {
 }
 
 li {
-    background: #937acd; 
+    background: #755cb0; 
     margin: 5px 0;
     padding: 10px;
-    border: 1px solid #00ff40;
+    border: 1px solid #0ae240;
+    transition: background 0.3s ease;
+}
+
+li:hover {
+    background: #04f20c;
 }

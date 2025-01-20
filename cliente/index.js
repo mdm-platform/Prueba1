@@ -2,6 +2,9 @@ console.log("¡Hola desde js!");  // Verifica conexión
 
 document.addEventListener('DOMContentLoaded', () => {  // Ejecuta el código cuando carga
     const ejerciciosList = document.getElementById('ejercicios-list');  // Selecciona el HTML con el id y lo almacena en la variable
+     
+    
+
 
     // Función para obtener y mostrar los ejercicios
     async function fetchEjercicios() {
