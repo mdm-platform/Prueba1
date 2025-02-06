@@ -23,3 +23,13 @@ li {
 li:hover {
     background: #04f20c;
 }
+
+button.edit {
+    background-color: #ffa500;
+    color: white;
+}
+
+button.delete {
+    background-color: #ff0000;
+    color: white;
+}
