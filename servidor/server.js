@@ -3,19 +3,13 @@ const express = require('express');
 const mysql = require('mysql2');
 const path = require('path');
 
-
-
 const app = express();
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname,'..', 'cliente')));
-//para conectar con cliente
-const port = 3001;
 
-// Ruta para servir el archivo index.html
-//app.get('/', (req, res) => {
-  //  res.sendFile(path.join(__dirname, '..', 'cliente', 'index.html'));
-//});
+//para conectar con cliente
+const port = 3003;
 
 
 // Configurar la conexión a la base de datos
@@ -86,35 +80,19 @@ app.post('/ejercicios', async (req, res) => {
     }
 });
 
-// para actualizar un record que ya existe
-app.put('/ejercicios', async (req, res) => {
-    const { name, newName } = req.body;
-
-    try {
-        const updateQuery = 'UPDATE ejercicios_lista SET name = ? WHERE name = ?';
-        await handleDatabaseOperation(updateQuery, [newName, name]);
-        res.json({ message: 'Ejercicio actualizado correctamente' });
-    } catch (error) {
-        res.status(500).json({ error: error.message });
-    }
-});
-
-
 // para actualizar un registro específico
 app.put('/ejercicios/:id', async (req, res) => {
     const { id } = req.params;
-    const { newName } = req.body;
+    const { name } = req.body;
 
     try {
         const updateQuery = 'UPDATE ejercicios_lista SET name = ? WHERE id = ?';
-        await handleDatabaseOperation(updateQuery, [newName, id]);
+        await handleDatabaseOperation(updateQuery, [name, id]);
         res.json({ message: 'Ejercicio actualizado correctamente' });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
 });
-
-
 
 // extraemos la operaciones en la base de datos
 const handleDatabaseOperation = async (query, params) => {
@@ -127,7 +105,6 @@ const handleDatabaseOperation = async (query, params) => {
         });
     });
 };
-
 
 app.listen(port, () => {
     console.log(`Servidor escuchando en http://localhost:${port}`);
