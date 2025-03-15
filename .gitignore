@@ -1,3 +1,5 @@
 .idea
 node_modules
+
+# archivo con variables
 .env

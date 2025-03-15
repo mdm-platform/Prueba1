@@ -9,7 +9,7 @@ const app = express();
 app.use(express.json());
 
 app.use(express.static(path.join(__dirname,'..', 'cliente')));
-//para conectar con cliente 
+//para conectar con cliente
 const port = 3001;
 
 // Ruta para servir el archivo index.html
@@ -18,6 +18,7 @@ const port = 3001;
 //});
 
 
+// Configurar la conexión a la base de datos
 const connection = mysql.createConnection({
     host: 'localhost',
     user: process.env.MYSQL_USERNAME,
@@ -25,8 +26,7 @@ const connection = mysql.createConnection({
     database: process.env.MYSQL_DATABASE
 });
 
-
-
+// Conectar a la base de datos
 connection.connect((err) => {
     if (err) {
         console.error('Error conectando a la base de datos:', err.stack);
@@ -35,13 +35,8 @@ connection.connect((err) => {
     console.log('Conectado a la base de datos como id ' + connection.threadId);
 });
 
-
-
-
-
-// para leer
 app.get('/ejercicios', (req, res) => {
-    const query = 'SELECT * FROM ejercicios_lista';        //selecciona
+    const query = 'SELECT * FROM ejercicios_lista';
     connection.query(query, (error, results) => {
         if (error) {
             return res.status(500).json({ error: error.message });
@@ -53,7 +48,7 @@ app.get('/ejercicios', (req, res) => {
 
 // para leer un registro específico
 
-// preguntar si se tiene que poner un nuevo registo en la carpeta de crud en postman 
+// preguntar si se tiene que poner un nuevo registo en la carpeta de crud en postman
 app.get('/ejercicios/:id', (req, res) => {
     const { id } = req.params;
     const query = 'SELECT * FROM ejercicios_lista WHERE id = ?';
