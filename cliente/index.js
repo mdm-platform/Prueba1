@@ -18,12 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {  // Ejecuta el código cua
           li.textContent = ejercicio.name;
           li.setAttribute('data-id', ejercicio.id);  // Añade un atributo data-id al elemento de lista
 
- // Crear botón de editar
- const editButton = document.createElement('button');
- editButton.textContent = 'Editar';
- editButton.classList.add('edit');
- editButton.addEventListener('click', () => editEjercicio(ejercicio.id, ejercicio.name));
-
 
  // Crear botón de eliminar
  const deleteButton = document.createElement('button');  // Crea un nuevo botón
@@ -33,7 +27,6 @@ document.addEventListener('DOMContentLoaded', () => {  // Ejecuta el código cua
 
 
  // Agregar botón al elemento de lista
- li.appendChild(editButton);
  li.appendChild(deleteButton);
  
           ejerciciosList.appendChild(li);  // Agrega el elemento de lista a la lista
@@ -51,8 +44,27 @@ async function addEjercicio(e) {
         return;
     }
 
- // Función para eliminar un ejercicio
- async function deleteEjercicio(id) {
+    const response = await fetch('http://localhost:3003/ejercicios', {  // Solicita un POST a la ruta ejercicios en el servidor
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name })
+    });
+
+    if (response.ok) {
+        ejercicioNameInput.value = '';  // Limpia el campo de entrada
+        const newEjercicio = await response.json();  // Obtiene el nuevo ejercicio agregado
+        addEjercicioToList(newEjercicio);  // Agrega el nuevo ejercicio a la lista sin recargar toda la lista
+        fetchEjercicios();  // Actualiza la lista de ejercicios
+    } else {
+        alert('Hubo un problema al agregar el ejercicio. Por favor, intenta nuevamente.');
+    }
+}
+
+
+  // Función para eliminar un ejercicio
+  async function deleteEjercicio(id) {
     const response = await fetch(`http://localhost:3003/ejercicios/${id}`, {  // Solicita un DELETE a la ruta ejercicios en el servidor
         method: 'DELETE'
     });
@@ -70,5 +82,4 @@ async function addEjercicio(e) {
     // Agregar un evento de envío al formulario
     ejercicioForm.addEventListener('submit', addEjercicio);
 
-}
 });
