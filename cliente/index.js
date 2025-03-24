@@ -65,6 +65,12 @@ async function addEjercicio(e) {
 
   // Función para eliminar un ejercicio
   async function deleteEjercicio(id) {
+  const isConfirmed = confirm('¿Estás seguro de que quieres eliminar este ejercicio?');  // Pregunta al usuario si está seguro
+
+    if (!isConfirmed) {
+        return;  // Si el usuario cancela, no hace nada
+    }
+
     const response = await fetch(`http://localhost:3003/ejercicios/${id}`, {  // Solicita un DELETE a la ruta ejercicios en el servidor
         method: 'DELETE'
     });
