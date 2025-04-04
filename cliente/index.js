@@ -25,13 +25,29 @@ document.addEventListener('DOMContentLoaded', () => {  // Ejecuta el código cua
  deleteButton.classList.add('delete');  // Añade la clase 'delete' al botón para aplicar los estilos CSS
  deleteButton.addEventListener('click', () => deleteEjercicio(ejercicio.id));  // Añade un evento de clic
 
+// Crear botón de editar
+const editButton = document.createElement('button');  // Crea un nuevo botón
+editButton.textContent = 'Editar';  // Establece el texto del botón a "Editar"
+editButton.classList.add('edit');  // Añade la clase 'edit' al botón para aplicar los estilos CSS
+editButton.addEventListener('click', () => editEjercicio(ejercicio.id, ejercicio.name));  // Añade un evento de clic
 
  // Agregar botón al elemento de lista
  li.appendChild(deleteButton);
+ li.appendChild(editButton);  // Añade el botón de eliminar al elemento de lista
  
           ejerciciosList.appendChild(li);  // Agrega el elemento de lista a la lista
         });
     }
+
+// Función para editar un ejercicio
+function editEjercicio(id, currentName) {
+    const newName = prompt('Edita el nombre del ejercicio:', currentName);  // Pregunta al usuario el nuevo nombre
+
+    if (newName && newName !== currentName) {  // Verifica que el nuevo nombre no esté vacío y sea diferente al actual
+        updateEjercicio(id, newName);  // Llama a la función para actualizar el ejercicio
+    }
+}
+
 
 // Función para agregar un nuevo ejercicio
 async function addEjercicio(e) {
@@ -60,6 +76,8 @@ async function addEjercicio(e) {
     } else {
         alert('Hubo un problema al agregar el ejercicio. Por favor, intenta nuevamente.');
     }
+
+
 }
 
 
@@ -81,6 +99,25 @@ async function addEjercicio(e) {
         alert('Hubo un problema al eliminar el ejercicio. Por favor, intenta nuevamente.');
     }
 }
+
+// Función para actualizar un ejercicio
+async function updateEjercicio(id, name) {
+    const response = await fetch(`http://localhost:3003/ejercicios/${id}`, {  // Solicita un PUT a la ruta ejercicios en el servidor
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name })
+    });
+
+    if (response.ok) {
+        fetchEjercicios();  // Recarga la lista de ejercicios
+    } else {
+        alert('Hubo un problema al actualizar el ejercicio. Por favor, intenta nuevamente.');
+    }
+}
+
+
 
     // Inicializar la lista de ejercicios
     fetchEjercicios();
