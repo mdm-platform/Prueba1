@@ -12,6 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {  // Ejecuta el código cua
         const data = await response.json();  // Convierte la respuesta en JSON
 
 
+ // Limpiar la lista antes de agregar los elementos
+ ejerciciosList.innerHTML = '';  // Esta línea asegura que la lista se limpie antes de recargar los ejercicios
+
+
         // Iterar sobre los datos y crear elementos de lista
         data.ejercicios.forEach(ejercicio => {
             const li = document.createElement('li');  // Crea un elemento de lista
